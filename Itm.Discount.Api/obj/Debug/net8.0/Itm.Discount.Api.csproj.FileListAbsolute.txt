@@ -35,3 +35,4 @@ C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Discount.Api\obj\Debug\net8.0
 C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Discount.Api\obj\Debug\net8.0\Itm.Discount.Api.pdb
 C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Discount.Api\obj\Debug\net8.0\Itm.Discount.Api.genruntimeconfig.cache
 C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Discount.Api\obj\Debug\net8.0\ref\Itm.Discount.Api.dll
+C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Discount.Api\obj\Debug\net8.0\Itm.Discount.Api.sourcelink.json

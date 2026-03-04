@@ -29,18 +29,51 @@ app.UseSwaggerUI();
 
 app.MapPost("/api/bookings", async (BookingRequest request, IHttpClientFactory factory) =>
 {
+    if (request is null)
+        return Results.BadRequest("El cuerpo de la solicitud es obligatorio.");
+
+    if (request.EventId <= 0)
+        return Results.BadRequest("Código de Evento inválido, intente nuevamente con un código valido.");
+
+    if (request.Tickets <= 0)
+        return Results.BadRequest("La cantidad de tickets debe ser mayor a cero.");
+
+    // Maximo de tickets por compra
+    var maxTicketsPerBooking = 5;
+
+    if (request.Tickets > maxTicketsPerBooking)
+        return Results.BadRequest(
+            $"No se pueden comprar más de {maxTicketsPerBooking} boletas por reserva.");
+
     var eventClient = factory.CreateClient("EventClient");
     var discountClient = factory.CreateClient("DiscountClient");
 
     try
     {
-        // LECTURA EN PARALELO
-        var eventTask = eventClient.GetFromJsonAsync<EventDto>($"/api/events/{request.EventId}");
-        var discountTask = discountClient.GetAsync($"/api/discounts/{request.DiscountCode}");
+        // LECTURA EN PARALELO (OBLIGATORIA)
+        var eventTask = eventClient
+            .GetFromJsonAsync<EventDto>($"/api/events/{request.EventId}");
+
+        Task<HttpResponseMessage> discountTask;
+
+        if (string.IsNullOrWhiteSpace(request.DiscountCode))
+        {
+            // Si no hay código, simulamos respuesta 404
+            discountTask = Task.FromResult(
+                new HttpResponseMessage(System.Net.HttpStatusCode.NotFound));
+        }
+        else
+        {
+            discountTask = discountClient
+                .GetAsync($"/api/discounts/{request.DiscountCode}");
+        }
 
         await Task.WhenAll(eventTask, discountTask);
 
         var evento = await eventTask;
+
+        if (evento is null)
+            return Results.NotFound("El Evento no existe.");
 
         DiscountDto? discount = null;
 
@@ -50,52 +83,60 @@ app.MapPost("/api/bookings", async (BookingRequest request, IHttpClientFactory f
                 .ReadFromJsonAsync<DiscountDto>();
         }
 
-        if (evento is null)
-            return Results.NotFound("Evento no existe.");
+        // Calcular total
+        decimal subtotal = evento.PrecioBase * request.Tickets;
 
-        // CALCULAR TOTAL
-        decimal total = evento.PrecioBase * request.Tickets;
+        decimal discountAmount = 0;
 
         if (discount is not null)
-            total -= total * discount.Porcentaje;
+        {
+            discountAmount = subtotal * discount.Porcentaje;
+        }
 
-        // RESERVAR (INICIO SAGA)
+        decimal total = subtotal - discountAmount;
+
+        // Reservar (Inicio SAGA)
         var reserveResponse = await eventClient.PostAsJsonAsync(
             "/api/events/reserve",
             new { EventId = request.EventId, Quantity = request.Tickets });
 
+        if (reserveResponse.StatusCode == System.Net.HttpStatusCode.Conflict)
+            return Results.Conflict("No hay sillas suficientes, intente de nuevo con un valor menor.");
+
         if (!reserveResponse.IsSuccessStatusCode)
-            return Results.BadRequest("No hay sillas suficientes.");
+            return Results.Problem("Error al reservar las sillas.");
 
-        try
-        {
-            // SIMULACIÓN PAGO
-            bool paymentSuccess = new Random().Next(1, 10) > 5;
+        // Simulación de pago
+        bool paymentSuccess = new Random().Next(1, 10) > 5;
 
-            if (!paymentSuccess)
-                throw new Exception("Pago rechazado");
-
-            return Results.Ok(new
-            {
-                Status = "Éxito",
-                TotalPagado = total,
-                Message = "¡Disfruta el concierto ITM!"
-            });
-        }
-        catch
+        if (!paymentSuccess)
         {
             // COMPENSACIÓN
             await eventClient.PostAsJsonAsync(
                 "/api/events/release",
                 new { EventId = request.EventId, Quantity = request.Tickets });
 
-            return Results.Problem(
-                "Tu pago fue rechazado. No te cobramos y tus sillas fueron liberadas.");
+            return Results.BadRequest(
+                "Pago rechazado. No se realizó el cobro y las sillas fueron liberadas.");
         }
+
+        return Results.Ok(new
+        {
+            Status = "Compra Éxitosa",
+            Evento = evento.Nombre,
+            PrecioUnitario = evento.PrecioBase,
+            CantidadBoletas = request.Tickets,
+            Subtotal = subtotal,
+            PorcentajeDescuento = discount?.Porcentaje ?? 0,
+            ValorDescuento = discountAmount,
+            TotalPagado = total,
+            FechaCompra = DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
+            Message = "¡Tus boletas seran enviadas a continuación, Disfruta del concierto ITM!"
+        });
     }
-    catch (Exception ex)
+    catch
     {
-        return Results.Problem($"Error inesperado: {ex.Message}");
+        return Results.Problem("Error inesperado en el proceso de reserva.");
     }
 });
 

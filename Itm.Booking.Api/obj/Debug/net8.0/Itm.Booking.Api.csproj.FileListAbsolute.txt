@@ -60,3 +60,4 @@ C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Booking.Api\obj\Debug\net8.0\
 C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Booking.Api\obj\Debug\net8.0\Itm.Booking.Api.pdb
 C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Booking.Api\obj\Debug\net8.0\Itm.Booking.Api.genruntimeconfig.cache
 C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Booking.Api\obj\Debug\net8.0\ref\Itm.Booking.Api.dll
+C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Booking.Api\obj\Debug\net8.0\Itm.Booking.Api.sourcelink.json

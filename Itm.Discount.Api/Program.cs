@@ -15,11 +15,13 @@ var descuentos = new List<DiscountDto>
 
 app.MapGet("/api/discounts/{code}", (string code) =>
 {
+    code = code.Trim().ToUpper();
+
     var discount = descuentos
-        .FirstOrDefault(d => d.Codigo == code);
+        .FirstOrDefault(d => d.Codigo.ToUpper() == code);
 
     if (discount is null)
-        return Results.NotFound();
+        return Results.NotFound(new { message = "Código no encontrado" });
 
     return Results.Ok(discount);
 });

@@ -35,3 +35,4 @@ C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Event.Api\obj\Debug\net8.0\re
 C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Event.Api\obj\Debug\net8.0\Itm.Event.Api.pdb
 C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Event.Api\obj\Debug\net8.0\Itm.Event.Api.genruntimeconfig.cache
 C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Event.Api\obj\Debug\net8.0\ref\Itm.Event.Api.dll
+C:\Users\felip\source\repos\Itm.Tickets.System\Itm.Event.Api\obj\Debug\net8.0\Itm.Event.Api.sourcelink.json
