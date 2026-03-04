@@ -1,1 +1,3 @@
-video de explicacion funcionamiento repo en el siguiente [link](https://correoitmedu-my.sharepoint.com/:v:/g/personal/andrescardona262029_correo_itm_edu_co/IQD-pxRoLwddTLvM9LioHQ_wARO8IvVMm9vpKBfafzcJ6ck?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=aA3b5Q)
+## 🎥 Video de explicación
+
+Puedes ver el [video explicativo aquí](https://correoitmedu-my.sharepoint.com/:v:/g/personal/andrescardona262029_correo_itm_edu_co/IQD-pxRoLwddTLvM9LioHQ_wARO8IvVMm9vpKBfafzcJ6ck?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=aA3b5Q).
