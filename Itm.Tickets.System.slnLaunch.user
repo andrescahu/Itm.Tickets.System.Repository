@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "Nuevo perfil",
+    "Projects": [
+      {
+        "Path": "Itm.Event.Api\\Itm.Event.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Itm.Discount.Api\\Itm.Discount.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Itm.Booking.Api\\Itm.Booking.Api.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
